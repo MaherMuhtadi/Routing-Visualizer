@@ -61,7 +61,7 @@ class graph {
      * @returns {boolean}
      */
     updateNode(old_node, new_node) {
-        if (this.nodes.includes(old_node)) {
+        if (this.nodes.includes(old_node) && !this.nodes.includes(new_node)) {
             this.edges.forEach(
                 edge => {
                     if (edge[0] === old_node) {edge[0] = new_node}
@@ -73,7 +73,7 @@ class graph {
             console.log(`Node ${old_node} updated to ${new_node}.`)
             return true
         }
-        console.log(`Node ${old_node} does not exist.`)
+        console.log(`Node ${old_node} does not exist or Node ${new_node} already exists.`)
         return false
     }
     

@@ -89,7 +89,7 @@ class graph:
             False (bool), otherwise
         '''
         
-        if old_node in self.nodes:
+        if old_node in self.nodes and new_node not in self.nodes:
             for edge in self.edges:
                 if edge[0] == old_node:
                     edge[0] = new_node
@@ -99,7 +99,7 @@ class graph:
             self.nodes[j] = new_node
             print(f"Node {old_node} updated to {new_node}.")
             return True
-        print(f"Node {old_node} does not exist.")
+        print(f"Node {old_node} does not exist or Node {new_node} already exists.")
         return False
     
 

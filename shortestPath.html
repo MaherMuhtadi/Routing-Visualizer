@@ -1,0 +1,175 @@
+<script src="graph.js"></script>
+<script>
+    nodes = ['n1', 'n2', 'n3', 'n4', 'n5', 'n6']
+    edges = [['n1', 'n2', 5], 
+             ['n1', 'n4', 6], 
+             ['n1', 'n3', 3], 
+             ['n2', 'n4', 4], 
+             ['n2', 'n5', 2], 
+             ['n2', 'n6', 2], 
+             ['n3', 'n4', 2], 
+             ['n3', 'n6', 8], 
+             ['n5', 'n6', 7]]
+
+    G = new graph(nodes, edges)
+
+    G.dijkstraNodes = [];
+    G.dijkstraEdges = [];
+    G.dijkstraPossibleEdges = [];
+    G.dijkstraDistances = {};
+    G.bfTable = {};
+    for (let i of G.nodes) {
+        let currTable = {};
+        for (let j of G.nodes) {
+            if (i === j) {
+                currTable[j] = 0;
+            } else {
+                currTable[j] = Infinity;
+            }
+        }
+        G.bfTable[i] = { ...currTable };
+    }
+
+    function filterPossibleEdges(tempList) {
+        if (tempList.length === 0) {
+            return;
+        }
+        if (tempList[0][0] in G.dijkstraNodes && tempList[0][1] in G.dijkstraNodes) {
+            G.dijkstraPossibleEdges.splice(G.dijkstraPossibleEdges.indexOf(tempList[0]), 1);
+        }
+        filterPossibleEdges(tempList.slice(1));
+    }
+
+    function Dijkstra(start, end) {
+        if (G.nodes.includes(start) && G.nodes.includes(end)) {
+            G.dijkstraEdges = [];
+            G.dijkstraDistances = {};
+            G.dijkstraNodes = [start];
+            G.dijkstraPossibleEdges = [];
+            for (let i of G.nodes) {
+                G.dijkstraDistances[i] = [Infinity, []];
+            }
+            G.dijkstraDistances[start] = [0, [start]];
+
+            for (let i of G.edges) {
+                if (i[0] === start) {
+                    G.dijkstraPossibleEdges.push(i);
+                    G.dijkstraDistances[i[1]] = [i[2], G.dijkstraDistances[i[0]][1].concat([i[1]])];
+                } else if (i[1] === start) {
+                    G.dijkstraPossibleEdges.push(i);
+                    G.dijkstraDistances[i[0]] = [i[2], G.dijkstraDistances[i[1]][1].concat([i[0]])];
+                }
+            }
+
+            while (G.dijkstraPossibleEdges.length !== 0 && !G.dijkstraNodes.includes(end)) {
+                let min = G.dijkstraPossibleEdges[0];
+                for (let i of G.dijkstraPossibleEdges) {
+                    if (i[2] < min[2]) {
+                        min = i;
+                    }
+                }
+                G.dijkstraPossibleEdges.splice(G.dijkstraPossibleEdges.indexOf(min), 1);
+                let shortest = true;
+                let num, other;
+                if (!G.dijkstraNodes.includes(min[0])) {
+                    num = 0;
+                    other = 1;
+                } else {
+                    num = 1;
+                    other = 0;
+                }
+                if (G.dijkstraDistances[min[num]][0] < G.dijkstraDistances[min[other]][0] + min[2]) {
+                    shortest = false;
+                }
+                if (shortest) {
+                    G.dijkstraEdges.push(min);
+                    G.dijkstraNodes.push(min[num]);
+                    for (let i of G.edges) {
+                        if (i[0] === min[num] && !G.dijkstraNodes.includes(i[1])) {
+                            if (G.dijkstraDistances[i[0]][0] + i[2] < G.dijkstraDistances[i[1]][0]) {
+                                G.dijkstraDistances[i[1]] = [G.dijkstraDistances[i[0]][0] + i[2], G.dijkstraDistances[i[0]][1].concat([i[1]])];
+                            }
+                            G.dijkstraPossibleEdges.push(i);
+                        } else if (i[1] === min[num] && !G.dijkstraNodes.includes(i[0])) {
+                            if (G.dijkstraDistances[i[1]][0] + i[2] < G.dijkstraDistances[i[0]][0]) {
+                                G.dijkstraDistances[i[0]] = [G.dijkstraDistances[i[1]][0] + i[2], G.dijkstraDistances[i[1]][1].concat([i[0]])];
+                            }
+                            G.dijkstraPossibleEdges.push(i);
+                        }
+                    }
+                    filterPossibleEdges([...G.dijkstraPossibleEdges]);
+                }
+            }
+            return G.dijkstraDistances[end];
+        }
+    }
+
+    function BellmanFord(start, end) {
+        if (G.nodes.includes(start) && G.nodes.includes(end)) {
+            let propagationTable = {};
+            for (let i of G.nodes) {
+                let currTable = {};
+                for (let j of G.nodes) {
+                    if (i === j) {
+                        currTable[j] = [0, [j]];
+                    } else {
+                        currTable[j] = [Infinity, []];
+                    }
+                }
+                G.bfTable[i] = { ...currTable };
+                propagationTable[i] = { ...currTable };
+            }
+
+            let update = true;
+            while (update) {
+                update = false;
+                for (let i of G.nodes) {
+                    for (let j of G.edges) {
+                        if (j[0] === i || j[1] === i) {
+                            let other = j[0] === i ? j[1] : j[0];
+                            for (let k of G.nodes) {
+                                if (G.bfTable[other][k][0] + j[2] < propagationTable[i][k][0]) {
+                                    propagationTable[i][k] = [G.bfTable[other][k][0] + j[2], [i].concat(G.bfTable[other][k][1])];
+                                    update = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                for (let i of G.nodes) {
+                    let currTable = {};
+                    for (let j of G.nodes) {
+                        currTable[j] = [propagationTable[i][j][0], [...propagationTable[i][j][1]]];
+                    }
+                    G.bfTable[i] = { ...currTable };
+                }
+            }
+            return G.bfTable[start][end];
+        }
+    }
+
+    s = "n1";
+    e = "n2";
+    console.log("Bellman-Ford's Minimum distance from", s, "to", e, "=", BellmanFord(s, e));
+    console.log("Dijkstr's Minimum distance from", s, "to", e, "=", Dijkstra(s, e));
+
+    s = "n1";
+    e = "n5";
+    console.log("Bellman-Ford's Minimum distance from", s, "to", e, "=", BellmanFord(s, e));
+    console.log("Dijkstr's Minimum distance from", s, "to", e, "=", Dijkstra(s, e));
+
+    s = "n5";
+    e = "n1";
+    console.log("Bellman-Ford's Minimum distance from", s, "to", e, "=", BellmanFord(s, e));
+    console.log("Dijkstr's Minimum distance from", s, "to", e, "=", Dijkstra(s, e));
+
+    s = "n5";
+    e = "n3";
+    console.log("Bellman-Ford's Minimum distance from", s, "to", e, "=", BellmanFord(s, e));
+    console.log("Dijkstr's Minimum distance from", s, "to", e, "=", Dijkstra(s, e));
+
+    s = "n6";
+    e = "n3";
+    console.log("Bellman-Ford's Minimum distance from", s, "to", e, "=", BellmanFord(s, e));
+    console.log("Dijkstr's Minimum distance from", s, "to", e, "=", Dijkstra(s, e));
+</script>

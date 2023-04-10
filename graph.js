@@ -11,13 +11,17 @@ class graph {
 
     /**
      * Constructs a graph object by setting the nodes and edges
-     * @param {Array} nodes - An array of nodes in the graph
+     * @param {Array} [nodes=[]] - An array of nodes in the graph
      * @param {Array} [edges=[]] - An array of weighted edges connecteing the graph nodes
      */
-    constructor(nodes, edges = []) {
+    constructor(nodes = [], edges = []) {
         this.nodes = [...new Set(nodes)] // Removes duplicate nodes before storing in this.nodes
         this.nodes.sort()
+        
         this.edges = [...edges]
+        if (nodes === [] && edges !== []) { // Clears list of edges if there are no nodes
+            this.edges = []
+        }
     }
     
 
@@ -27,7 +31,11 @@ class graph {
      * @returns {boolean}
      */
     addNode(node) {
-        if (!this.nodes.includes(node)) {
+        if (node === "") {
+            console.log("Invalid node.")
+            return false;
+        }
+        else if (!this.nodes.includes(node)) {
             this.nodes.push(node)
             console.log(`Node ${node} added.`)
             return true
@@ -61,7 +69,11 @@ class graph {
      * @returns {boolean}
      */
     updateNode(old_node, new_node) {
-        if (this.nodes.includes(old_node) && !this.nodes.includes(new_node)) {
+        if (new_node === "") {
+            console.log("Invalid new node.")
+            return false;
+        }
+        else if (this.nodes.includes(old_node) && !this.nodes.includes(new_node)) {
             this.edges.forEach(
                 edge => {
                     if (edge[0] === old_node) {edge[0] = new_node}
@@ -86,7 +98,11 @@ class graph {
      * @returns {boolean}
      */
     addEdge(node_x, node_y, weight) {
-        if (!this.nodes.includes(node_x) || !this.nodes.includes(node_y)) {
+        if (node_x === "" || node_y === "") {
+            console.log("Invalid node(s).")
+            return false;
+        }
+        else if (!this.nodes.includes(node_x) || !this.nodes.includes(node_y)) {
             console.log("One or both of the nodes do not exist.")
             return false
         }

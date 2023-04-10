@@ -2,7 +2,7 @@
  * A class for a simple graph containing nodes and positive weighted edges.
  * Attributes:
  *      nodes (Array) - An array of nodes in the graph
- *      edges (Array) - An array of weighted edges connecteing the graph nodes
+ *      edges (Array) - An array of weighted edges connecting the graph nodes
  * Methods:
  *      addNode, removeNode, updateNode, addEdge, removeEdge, updateEdgeWeight
  */

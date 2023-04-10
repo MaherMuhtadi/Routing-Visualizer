@@ -1,23 +1,24 @@
-var cy = cytoscape({
-    container: document.getElementById("cy"), // container to render in
+var net = cytoscape({
+    container: document.getElementById("canvas"), // container to render in
+    style: [{
+          selector: 'node',
+          style: {
+            'label': 'data(label)', // uses the "label" property from node's data property as the label
+          }
+        }],
 });
 
-// test nodes
-cy.add([
-    { group: 'nodes', data: { id: 'n0' }},
-    { group: 'nodes', data: { id: 'n1' }},
-    { group: 'nodes', data: { id: 'n2' }},
-    { group: 'nodes', data: { id: 'n3' }},
-    { group: 'nodes', data: { id: 'n4' }},
-    { group: 'nodes', data: { id: 'n5' }},
-    { group: 'nodes', data: { id: 'n6' }},
-    { group: 'edges', data: { id: 'e0', source: 'n0', target: 'n1' } },
-    { group: 'edges', data: { id: 'e1', source: 'n3', target: 'n2' } },
-    { group: 'edges', data: { id: 'e2', source: 'n6', target: 'n0' } },
-    { group: 'edges', data: { id: 'e3', source: 'n4', target: 'n5' } }
-]);
+var nodes = ['n1', 'n2', 'n3', 'n4', 'n5', 'n6'];
+var edges = [['n1', 'n2', 5], ['n1', 'n4', 6], ['n1', 'n3', 3], ['n2', 'n4', 4], ['n2', 'n5', 2], ['n2', 'n6', 2], ['n3', 'n4', 2], ['n3', 'n6', 8], ['n5', 'n6', 7]];
+g = new graph(nodes, edges);
 
-cy.layout({
-    name: "concentric",
-    minNodeSpacing: 50
+for (let node of g.nodes) {
+    net.add({group: "nodes", data: {id: node, label: node}});
+}
+for (let edge of g.edges) {
+    net.add({group: "edges", data: {id: edge[0]+edge[1], source: edge[0], target: edge[1]}});
+}
+
+net.layout({
+    name: "grid",
 }).run();

@@ -8,7 +8,7 @@
     <title>Routing Visualizer</title>
 
     <style>
-        #cy {
+        #canvas {
             aspect-ratio: 1/1;
             width: 40%;
             margin: auto;
@@ -16,11 +16,12 @@
         }
     </style>
 
+    <script src="graph.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js" integrity="sha512-gEWKnYYa1/1c3jOuT9PR7NxiVI1bwn02DeJGsl+lMVQ1fWMNvtjkjxIApTdbJ/wcDjQmbf+McWahXwipdC9bGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
-    <div id="cy"></div>
+    <div id="canvas"></div>
 </body>
 
 <script src="renderer.js"></script>

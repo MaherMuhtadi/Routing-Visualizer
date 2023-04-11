@@ -1,4 +1,7 @@
-function bellmClickHandler(){
+/**
+ * @param {*} B - BellmanFord Object
+ */
+function bellmClickHandler(B){
     document.getElementById('table-view').textContent = "";
     makeTables();
     let res = stepper2.next().value;
@@ -28,8 +31,8 @@ function dijkClickHandler(dijk){
     const tv = document.getElementById('table-view');
     const table = document.createElement('table');
     const title = document.createElement('caption');
-    title.textContent = djijk.start;
-    table.setAttribute('id', 'table'+djijk.start);
+    title.textContent = dijk.start;
+    table.setAttribute('id', 'table'+dijk.start);
     const headerRow = document.createElement('tr'); 
     const nodeHeader = document.createElement('th');
     nodeHeader.textContent = 'Node';
@@ -41,7 +44,6 @@ function dijkClickHandler(dijk){
     table.appendChild(headerRow);
     tv.appendChild(table);
 
-    title.textContent = dijk.start;
     
     stepper.next();
     
@@ -56,7 +58,6 @@ function dijkClickHandler(dijk){
         table.appendChild(row);
 
     };
-
     
 }
 

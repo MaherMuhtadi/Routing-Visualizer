@@ -70,3 +70,7 @@ function makeTables(algorithm){
         tv.appendChild(table);
     }
 }
+
+function clearTableView(){
+    document.getElementById('table-view').textContent = "";
+}

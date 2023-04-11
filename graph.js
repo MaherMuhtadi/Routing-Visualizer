@@ -12,7 +12,7 @@ class graph {
     /**
      * Constructs a graph object by setting the nodes and edges
      * @param {Array} [nodes=[]] - An array of nodes in the graph
-     * @param {Array} [edges=[]] - An array of weighted edges connecteing the graph nodes
+     * @param {Array} [edges=[]] - An array of weighted edges connecting the graph nodes
      */
     constructor(nodes = [], edges = []) {
         this.nodes = [...new Set(nodes)] // Removes duplicate nodes before storing in this.nodes

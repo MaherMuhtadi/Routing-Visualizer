@@ -104,9 +104,12 @@ function pathDijkstras() {
     let end = document.getElementById("end").value;
     
     let d = new Dijkstras(g, start, end);
+    console.log("new d created");
+    console.log(d)
     let step = d.stepThrough();
 
     if (!d.solved) {
+       
         for (let button of document.getElementsByClassName("locked-button")) {
             button.disabled = true;
         }
@@ -147,6 +150,7 @@ function pathDijkstras() {
                 button.disabled = false;
             }
             document.getElementById("d-step").disabled = true;
+            d = null;
         }
     });
 }
@@ -188,6 +192,7 @@ function pathBellman() {
                 button.disabled = false;
             }
             document.getElementById("b-step").disabled = true;
+            b = null;
         }
     });
 }

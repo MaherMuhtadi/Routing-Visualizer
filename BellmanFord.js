@@ -28,8 +28,7 @@ class BFord{
                 this.bfTable[i] = { ...currTable };
                 propagationTable[i] = { ...currTable };
             }
-            yield {'bfTable':this.bfTable,
-                    'propagationTable':propagationTable};
+            yield;
             
             let update = true;
             while (update) {
@@ -55,9 +54,9 @@ class BFord{
                         currTable[j] = [propagationTable[i][j][0], [...propagationTable[i][j][1]]];
                     }
                     this.bfTable[i] = { ...currTable };
-                    yield {'bfTable':this.bfTable};
-            
+                    
                 }
+                yield;
             }
            
         }

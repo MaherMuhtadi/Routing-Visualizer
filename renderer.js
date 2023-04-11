@@ -117,7 +117,7 @@ function pathDijkstras() {
     }
 
     resetColors();
-
+    clearTableView();
     document.getElementById("d-step").addEventListener("click", () => {
         step.next();
 
@@ -170,7 +170,7 @@ function pathBellman() {
     }
 
     resetColors();
-
+    clearTableView();
     document.getElementById("b-step").addEventListener("click", () => {
         step.next();
         console.log(b);

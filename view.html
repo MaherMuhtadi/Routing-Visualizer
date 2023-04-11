@@ -21,6 +21,24 @@
 </head>
 
 <body>
+    <form>
+        <label for="node">Node:</label>
+        <input type="text" id="node">
+        
+        <button type="button" onclick="renderNode()">Add Node</button><br>
+
+        <label for="node_x">Node 1:</label>
+        <input type="text" id="node_x">
+        <label for="node_y">Node 2:</label>
+        <input type="text" id="node_y">
+        <label for="weight">Weight:</label>
+        <input type="number" id="weight">
+
+        <button type="button" onclick="renderEdge()">Add Edge</button><br>
+
+        <button type="reset">Reset</button>
+    </form>
+
     <div id="canvas"></div>
 </body>
 

@@ -20,7 +20,7 @@ function dijkstraTableGenerator(dijk){
     for (const [key,value] of Object.entries(dijk.dijkstraDistances)) {
         const row = document.createElement('tr');
         const nameCell = document.createElement('td');
-        nameCell.textContent = "Node: "+key;
+        nameCell.textContent = key;
         const distCell = document.createElement('td');
         distCell.textContent = value[0];
         row.appendChild(nameCell);

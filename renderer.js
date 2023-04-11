@@ -107,7 +107,7 @@ function pathDijkstras() {
     let step = d.stepThrough();
 
     if (!d.solved) {
-        for (let button of document.getElementsByClassName("algo-button")) {
+        for (let button of document.getElementsByClassName("locked-button")) {
             button.disabled = true;
         }
         document.getElementById("d-step").disabled = false;
@@ -143,7 +143,7 @@ function pathDijkstras() {
                 colorEdge([path[i+1], path[i]], "green");
             }
 
-            for (let button of document.getElementsByClassName("algo-button")) {
+            for (let button of document.getElementsByClassName("locked-button")) {
                 button.disabled = false;
             }
             document.getElementById("d-step").disabled = true;
@@ -159,7 +159,7 @@ function pathBellman() {
     let step = b.stepThrough();
 
     if (!b.solved) {
-        for (let button of document.getElementsByClassName("algo-button")) {
+        for (let button of document.getElementsByClassName("locked-button")) {
             button.disabled = true;
         }
         document.getElementById("b-step").disabled = false;
@@ -184,7 +184,7 @@ function pathBellman() {
             }
 
 
-            for (let button of document.getElementsByClassName("algo-button")) {
+            for (let button of document.getElementsByClassName("locked-button")) {
                 button.disabled = false;
             }
             document.getElementById("b-step").disabled = true;

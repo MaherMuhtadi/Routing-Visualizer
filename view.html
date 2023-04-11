@@ -21,7 +21,10 @@
 </head>
 
 <body>
+    <h1>Routing Visualizer</h1>
+
     <form>
+        <h2>Building Graph</h2>
         <label for="node">Node:</label>
         <input type="text" id="node">
         
@@ -34,9 +37,7 @@
         <label for="weight">Weight:</label>
         <input type="number" id="weight">
 
-        <button type="button" onclick="renderEdge()">Add Edge</button><br>
-
-        <button type="reset">Reset</button>
+        <button type="button" onclick="renderEdge()">Add Edge</button>
     </form>
 
     <div id="canvas"></div>

@@ -1,0 +1,23 @@
+* {
+    font-family: Electrolize;
+}
+
+#container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#canvas {
+    aspect-ratio: 1/1;
+    width: 40%;
+    border: 1px solid;
+}
+
+form {
+    width: 40%;
+    line-height: 1.5rem;
+}
+
+h1 {
+    text-align: center;
+}

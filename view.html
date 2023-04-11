@@ -12,6 +12,9 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js" integrity="sha512-gEWKnYYa1/1c3jOuT9PR7NxiVI1bwn02DeJGsl+lMVQ1fWMNvtjkjxIApTdbJ/wcDjQmbf+McWahXwipdC9bGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="graph.js"></script>
+    <script src="Dijkstras.js"></script>
+    <script src="BellmanFord.js"></script>
+    <script src="tableView.js"></script>
 </head>
 
 <body>
@@ -43,6 +46,8 @@
                 <button type="button" onclick="renderEdge()">Add Edge</button>
             </fieldset>
 
+            <button type="button" onclick="buildDefault()">Sample Graph</button>
+
             <h2>Generate Path</h2>
             
             <fieldset>
@@ -53,13 +58,18 @@
                 <label for="end">Destination Node:</label>
                 <input type="text" id="end"><br>
 
-                <button type="button" onclick="">Dijkstra's Algorithm</button>
-                <button type="button" onclick="">Bellman-Ford Algorithm</button>
+                <button type="button" class="algo-button" onclick="pathDijkstras()">Dijkstra's Algorithm</button>
+                <button type="button" id="d-step" disabled>Step</button><br>
+
+                <button type="button" class="algo-button" onclick="pathBellman()">Bellman-Ford Algorithm</button>
+                <button type="button" id="b-step" disabled>Step</button>
             </fieldset>
         </form>
 
         <div id="canvas"></div>
     </div>
+
+    <div id="table-view"></div>
 </body>
 
 <script src="renderer.js"></script>

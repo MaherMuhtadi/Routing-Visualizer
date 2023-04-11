@@ -1,6 +1,7 @@
-class BFord{
+class BellmanFord {
+    
     /**
-     * 
+     * A class that runs Bellman-Ford algorithm on a graph
      * @param {*} graph - a graph object 
      * @param {*} start 
      * @param {*} end 
@@ -10,7 +11,7 @@ class BFord{
         this.start = start;
         this.end = end;
         this.bfTable = {};
-    
+        this.solved = false;    
     }
 
     *stepThrough(){
@@ -50,7 +51,7 @@ class BFord{
                 }
                 for (let i of this.G.nodes) {
                     let currTable = {};
-                    for (let j of G.nodes) {
+                    for (let j of this.G.nodes) {
                         currTable[j] = [propagationTable[i][j][0], [...propagationTable[i][j][1]]];
                     }
                     this.bfTable[i] = { ...currTable };
@@ -58,8 +59,7 @@ class BFord{
                 }
                 yield;
             }
-           
+            this.solved = true;           
         }
     }
-
 }

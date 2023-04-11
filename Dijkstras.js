@@ -1,9 +1,7 @@
-console.log("hello")
-
-
 class Dijkstras {
+
     /**
-     * 
+     * A class that runs Dijkstra's algorithm on a graph
      * @param {*} graph - a Graph object
      * @param {String} start - name identifier for start node
      * @param {String} end - name identifier for end node
@@ -19,11 +17,10 @@ class Dijkstras {
         this.solved = false;
         this.firstStepDone = false;
 
-        for (let i of G.nodes) {
-            this.dijkstraDistances[i] = [Infinity, []];
+        for (let node of graph.nodes) {
+            this.dijkstraDistances[node] = [Infinity, []];
         }
         this.dijkstraDistances[start] = [0, [this.start]];
-        
     }
 
     filterPossibleEdges(tempList) {
@@ -36,29 +33,18 @@ class Dijkstras {
         this.filterPossibleEdges(tempList.slice(1));
     }
 
-    *stepThrough(){
+    *stepThrough() {
         for (let i of this.G.edges) {
      
             if (i[0] === this.start) {
                 this.dijkstraPossibleEdges.push(i);
                 this.dijkstraDistances[i[1]] = [i[2], this.dijkstraDistances[i[0]][1].concat([i[1]])];
-                yield {'PossEdgesUpdated':true,
-                        'KnownNodesUpdated':false,
-                        'DistancesUpdated':true,
-                        'EdgesUpdated':false,
-                    };
             } else if (i[1] === this.start) {
                 this.dijkstraPossibleEdges.push(i);
                 this.dijkstraDistances[i[0]] = [i[2], this.dijkstraDistances[i[1]][1].concat([i[0]])];
-                yield {'PossEdgesUpdated':true,
-                        'KnownNodesUpdated':false,
-                        'DistancesUpdated':true,
-                        'EdgesUpdated':false,
-                    };
             }
-            
-            
         }
+        yield;
 
         while (this.dijkstraPossibleEdges.length !== 0 && !this.dijkstraNodes.includes(this.end)) {
             let min = this.dijkstraPossibleEdges[0];
@@ -96,36 +82,18 @@ class Dijkstras {
                             this.dijkstraDistances[i[1]] = [this.dijkstraDistances[i[0]][0] + i[2], this.dijkstraDistances[i[0]][1].concat([i[1]])];
                         }
                         this.dijkstraPossibleEdges.push(i);
-                        yield {
-                            'PossEdgesUpdated':true,
-                            'KnownNodesUpdated':false,
-                            'DistancesUpdated':true,
-                            'EdgesUpdated':false,
-                        };
                     } else if (i[1] === min[num] && !this.dijkstraNodes.includes(i[0])) {
                         if (this.dijkstraDistances[i[1]][0] + i[2] < this.dijkstraDistances[i[0]][0]) {
                             this.dijkstraDistances[i[0]] = [this.dijkstraDistances[i[1]][0] + i[2], this.dijkstraDistances[i[1]][1].concat([i[0]])];
                         }
                         this.dijkstraPossibleEdges.push(i);
-                        yield {
-                            'PossEdgesUpdated':true,
-                            'KnownNodesUpdated':false,
-                            'DistancesUpdated':true,
-                            'EdgesUpdated':false,
-                        };
                     }
                 }
+                yield;
+
                 this.filterPossibleEdges([...this.dijkstraPossibleEdges]);
-                yield {
-                    'PossEdgesUpdated':true,
-                    'KnownNodesUpdated':false,
-                    'DistancesUpdated':false,
-                    'EdgesUpdated':false,
-                };
             }
         }
-
-
+        this.solved = true;
     }
-
 }

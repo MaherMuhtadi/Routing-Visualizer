@@ -25,7 +25,7 @@ var g = new graph();
 /**
  * Builds a sample graph
  */
-function buildDefault() {
+function buildSample() {
     g.nodes = ['n1', 'n2', 'n3', 'n4', 'n5', 'n6']
     g.edges = [['n1', 'n2', 5], 
              ['n1', 'n4', 6], 

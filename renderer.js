@@ -113,12 +113,12 @@ function pathDijkstras() {
         for (let button of document.getElementsByClassName("locked-button")) {
             button.disabled = true;
         }
-        document.getElementById("d-step").disabled = false;
+        document.getElementById("step").disabled = false;
     }
 
     resetColors();
     clearTableView();
-    document.getElementById("d-step").addEventListener("click", () => {
+    document.getElementById("step").addEventListener("click", () => {
         step.next();
 
         resetColors();
@@ -149,7 +149,7 @@ function pathDijkstras() {
             for (let button of document.getElementsByClassName("locked-button")) {
                 button.disabled = false;
             }
-            document.getElementById("d-step").disabled = true;
+            document.getElementById("step").disabled = true;
             d = null;
         }
     });
@@ -166,12 +166,12 @@ function pathBellman() {
         for (let button of document.getElementsByClassName("locked-button")) {
             button.disabled = true;
         }
-        document.getElementById("b-step").disabled = false;
+        document.getElementById("step").disabled = false;
     }
 
     resetColors();
     clearTableView();
-    document.getElementById("b-step").addEventListener("click", () => {
+    document.getElementById("step").addEventListener("click", () => {
         step.next();
         console.log(b);
         bellmanTableGenerator(b);
@@ -191,7 +191,7 @@ function pathBellman() {
             for (let button of document.getElementsByClassName("locked-button")) {
                 button.disabled = false;
             }
-            document.getElementById("b-step").disabled = true;
+            document.getElementById("step").disabled = true;
             b = null;
         }
     });

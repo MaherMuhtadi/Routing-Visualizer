@@ -22,40 +22,40 @@
 
     <div id="container">
         <form>
-            <h2>Build Graph</h2>
+            <h2>Build Network</h2>
             
             <fieldset>
-                <legend>New Node</legend>
+                <legend>New Device</legend>
                 
-                <label for="node">Node:</label>
+                <label for="node">Device:</label>
                 <input type="text" id="node"><br>
                 
-                <button type="button" class="locked-button" onclick="renderNode()">Add Node</button><br>
+                <button type="button" class="locked-button" onclick="renderNode()">Add Device</button><br>
             </fieldset>
 
             <fieldset>
-                <legend>New Edge</legend>
+                <legend>New Link</legend>
 
-                <label for="node_x">Node 1:</label>
+                <label for="node_x">Device 1:</label>
                 <input type="text" id="node_x">
-                <label for="node_y">Node 2:</label>
+                <label for="node_y">Device 2:</label>
                 <input type="text" id="node_y"><br>
-                <label for="weight">Weight:</label>
+                <label for="weight">Distance:</label>
                 <input type="number" id="weight"><br>
 
-                <button type="button" class="locked-button" onclick="renderEdge()">Add Edge</button>
+                <button type="button" class="locked-button" onclick="renderEdge()">Add Link</button>
             </fieldset>
 
-            <button type="button" class="locked-button" onclick="buildSample()">Sample Graph</button>
+            <button type="button" class="locked-button" onclick="buildSample()">Sample Network</button>
 
-            <h2>Generate Path</h2>
+            <h2>Generate Route</h2>
             
             <fieldset>
-                <legend>Find Path</legend>
+                <legend>Find Route</legend>
 
-                <label for="start">Source Node:</label>
+                <label for="start">Source Device:</label>
                 <input type="text" id="start"><br>
-                <label for="end">Destination Node:</label>
+                <label for="end">Destination Device:</label>
                 <input type="text" id="end"><br>
 
                 <button type="button" class="locked-button" onclick="pathDijkstras()">Dijkstra's Algorithm</button>

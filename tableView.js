@@ -9,7 +9,7 @@ function dijkstraTableGenerator(dijk){
     table.setAttribute('id', 'table'+dijk.start);
     const headerRow = document.createElement('tr'); 
     const nodeHeader = document.createElement('th');
-    nodeHeader.textContent = 'Node';
+    nodeHeader.textContent = 'Device';
     const distanceHeader = document.createElement('th');
     distanceHeader.textContent = 'Distance from '+dijk.start;
     headerRow.appendChild(nodeHeader);
@@ -60,7 +60,7 @@ function makeTables(algorithm){
         table.setAttribute('id', 'table'+iterator);
         const headerRow = document.createElement('tr'); 
         const nodeHeader = document.createElement('th');
-        nodeHeader.textContent = 'Node';
+        nodeHeader.textContent = 'Device';
         const distanceHeader = document.createElement('th');
         distanceHeader.textContent = 'Distance';
         headerRow.appendChild(nodeHeader);

@@ -134,7 +134,7 @@ function toggleDisabledButtons() {
         button.disabled = !button.disabled;
     }
     document.getElementById("step").disabled = !document.getElementById("step").disabled;
-    document.getElementById("finish").disabled = !document.getElementById("finish").disabled;
+    document.getElementById("skip").disabled = !document.getElementById("skip").disabled;
 }
 
 /**
@@ -150,6 +150,7 @@ function pathDijkstras() {
         return;
     }
     let d = new Dijkstras(g, start, end);
+    let step = d.stepThrough();
 
     if (!d.solved) {
         toggleDisabledButtons();
@@ -157,8 +158,9 @@ function pathDijkstras() {
     resetColors();
     clearTableView();
 
+    // Handler for step button click event steps through the algorithm
     document.getElementById("step").addEventListener("click", () => {
-        d.stepThrough().next();
+        step.next();
         dijkstraTableGenerator(d);
 
         resetColors();
@@ -173,18 +175,37 @@ function pathDijkstras() {
         }
 
         if (d.solved) {
-            let path = d.dijkstraDistances[end][1];
-            resetColors();
-            for (let node of path){
-                colorNode(node, final_color);
-            }
-            for (let i = 0; i < path.length - 1; i++) {
-                colorEdge([path[i], path[i+1]], final_color);
-            }
-            toggleDisabledButtons();
+            dijkstrasFinalStep(d, end);
             d = null;
         }
     });
+
+    // Handler for skip button click event skips to the end of the algorithm
+    document.getElementById("skip").addEventListener("click", () => {
+        while (!d.solved) {
+            step.next();
+            dijkstraTableGenerator(d);
+        }
+        dijkstrasFinalStep(d, end);
+        d = null;
+    });
+}
+
+/**
+ * Runs the final step of the Dijkstra's algorithm
+ * @param {Dijkstras} d - The Dijkstras object representing the algorithm
+ * @param {*} end - The end node of the path
+ */
+function dijkstrasFinalStep(d, end) {
+    let path = d.dijkstraDistances[end][1];
+    resetColors();
+    for (let node of path){
+        colorNode(node, final_color);
+    }
+    for (let i = 0; i < path.length - 1; i++) {
+        colorEdge([path[i], path[i+1]], final_color);
+    }
+    toggleDisabledButtons();
 }
 
 /**
@@ -200,6 +221,7 @@ function pathBellman() {
         return;
     }
     let b = new BellmanFord(g, start, end);
+    let step = b.stepThrough();
 
     if (!b.solved) {
         toggleDisabledButtons();
@@ -207,20 +229,41 @@ function pathBellman() {
     resetColors();
     clearTableView();
     
+    // Handler for step button click event steps through the algorithm
     document.getElementById("step").addEventListener("click", () => {
-        b.stepThrough().next();
+        step.next();
         bellmanTableGenerator(b);
 
         if (b.solved) {
-            let path = b.bfTable[start][end][1];
-            for (let node of path){
-                colorNode(node, final_color);
-            }
-            for (let i = 0; i < path.length - 1; i++) {
-                colorEdge([path[i], path[i+1]], final_color);
-            }
-            toggleDisabledButtons();
+            bellmanFinalStep(b, start, end);
             b = null;
         }
     });
+
+    // Handler for skip button click event skips to the end of the algorithm
+    document.getElementById("skip").addEventListener("click", () => {
+        while (!b.solved) {
+            step.next();
+            bellmanTableGenerator(b);
+        }
+        bellmanFinalStep(b, start, end);
+        b = null;
+    });
+}
+
+/**
+ * Runs the final step of the Bellman-Ford algorithm
+ * @param {BellmanFord} b - The BellmanFord object representing the algorithm
+ * @param {*} start - The start node of the path
+ * @param {*} end - The end node of the path
+ */
+function bellmanFinalStep(b, start, end) {
+    let path = b.bfTable[start][end][1];
+    for (let node of path){
+        colorNode(node, final_color);
+    }
+    for (let i = 0; i < path.length - 1; i++) {
+        colorEdge([path[i], path[i+1]], final_color);
+    }
+    toggleDisabledButtons();
 }

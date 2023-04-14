@@ -1,10 +1,12 @@
 class BellmanFord {
     
+
     /**
-     * A class that runs Bellman-Ford algorithm on a graph
-     * @param {*} graph - a graph object 
-     * @param {*} start 
-     * @param {*} end 
+     * Constructs a BellmanFord object by setting the graph, starting node and ending node.
+     * Initializes all instance variables needed to keep track of algorithm steps.
+     * @param {graph} graph - The graph object on which the algorithm is being run
+     * @param {*} start - The source node of the path
+     * @param {*} end - The destination node of the path
      */
     constructor(graph, start, end){
         this.G = graph;
@@ -14,7 +16,11 @@ class BellmanFord {
         this.solved = false;    
     }
 
-    *stepThrough(){
+
+    /**
+     * Generator method that runs the algorithm and yields at each step of the algorithm run
+     */
+    *stepThrough() {
         if (this.G.nodes.includes(this.start) && this.G.nodes.includes(this.end)) {
             let propagationTable = {};
             for (let i of this.G.nodes) {
@@ -42,8 +48,6 @@ class BellmanFord {
                                 if (this.bfTable[other][k][0] + j[2] < propagationTable[i][k][0]) {
                                     propagationTable[i][k] = [this.bfTable[other][k][0] + j[2], [i].concat(this.bfTable[other][k][1])];
                                     update = true;
-                                    
-            
                                 }
                             }
                         }
@@ -55,11 +59,10 @@ class BellmanFord {
                         currTable[j] = [propagationTable[i][j][0], [...propagationTable[i][j][1]]];
                     }
                     this.bfTable[i] = { ...currTable };
-                    
                 }
                 yield;
             }
-            this.solved = true;           
+            this.solved = true;
         }
     }
 }

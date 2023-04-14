@@ -144,6 +144,10 @@ function toggleDisabledButtons() {
 function pathDijkstras() {
     let start = document.getElementById("start").value;
     let end = document.getElementById("end").value;
+    if (!g.nodes.includes(start) || !g.nodes.includes(end)) {
+        window.alert("One or both of the nodes do not exist.");
+        return;
+    }
     let d = new Dijkstras(g, start, end);
     let step = d.stepThrough();
 
@@ -191,6 +195,10 @@ function pathDijkstras() {
 function pathBellman() {
     let start = document.getElementById("start").value;
     let end = document.getElementById("end").value;
+    if (!g.nodes.includes(start) || !g.nodes.includes(end)) {
+        window.alert("One or both of the nodes do not exist.");
+        return;
+    }
     let b = new BellmanFord(g, start, end);
     let step = b.stepThrough();
 

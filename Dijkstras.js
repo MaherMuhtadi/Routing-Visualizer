@@ -1,12 +1,14 @@
 class Dijkstras {
 
+
     /**
-     * A class that runs Dijkstra's algorithm on a graph
-     * @param {*} graph - a Graph object
-     * @param {String} start - name identifier for start node
-     * @param {String} end - name identifier for end node
+     * Constructs a Dijkstras object by setting the graph, starting node and ending node.
+     * Initializes all instance variables needed to keep track of algorithm steps.
+     * @param {graph} graph - The graph object on which the algorithm is being run
+     * @param {*} start - The source node of the path
+     * @param {*} end - The destination node of the path
      */
-    constructor(graph, start, end){
+    constructor(graph, start, end) {
         this.G = graph;
         this.dijkstraNodes = [start];
         this.dijkstraEdges = [];
@@ -23,6 +25,11 @@ class Dijkstras {
         this.dijkstraDistances[start] = [0, [this.start]];
     }
 
+
+    /**
+     * Helper method for *stepThrough() method
+     * @param {Array} tempList - The unfiltered dijkstraPossibleEdges array
+     */
     filterPossibleEdges(tempList) {
         if (tempList.length === 0) {
             return;
@@ -33,9 +40,12 @@ class Dijkstras {
         this.filterPossibleEdges(tempList.slice(1));
     }
 
+
+    /**
+     * Generator method that runs the algorithm and yields at each step of the algorithm run
+     */
     *stepThrough() {
         for (let i of this.G.edges) {
-     
             if (i[0] === this.start) {
                 this.dijkstraPossibleEdges.push(i);
                 this.dijkstraDistances[i[1]] = [i[2], this.dijkstraDistances[i[0]][1].concat([i[1]])];
@@ -75,7 +85,7 @@ class Dijkstras {
                     'DistancesUpdated':false,
                     'EdgesUpdated':true,
                 };
-            
+
                 for (let i of this.G.edges) {
                     if (i[0] === min[num] && !this.dijkstraNodes.includes(i[1])) {
                         if (this.dijkstraDistances[i[0]][0] + i[2] < this.dijkstraDistances[i[1]][0]) {

@@ -32,14 +32,16 @@ class graph {
      */
     addNode(node) {
         if (node === "") {
+            console.log("Invalid node.")
             window.alert("Invalid node.")
             return false;
         }
         else if (!this.nodes.includes(node)) {
             this.nodes.push(node)
-            window.alert(`Node ${node} added.`)
+            console.log(`Node ${node} added.`)
             return true
         }
+        console.log(`Node ${node} already exists.`)
         window.alert(`Node ${node} already exists.`)
         return false
     }
@@ -54,9 +56,10 @@ class graph {
         if (this.nodes.includes(node)) {
             this.nodes = this.nodes.filter(n => n !== node)
             this.edges = this.edges.filter(edge => !edge.slice(0,2).includes(node))
-            window.alert(`Node ${node} removed.`)
+            console.log(`Node ${node} removed.`)
             return true
         }
+        console.log(`Node ${node} does not exist.`)
         window.alert(`Node ${node} does not exist.`)
         return false
     }
@@ -70,6 +73,7 @@ class graph {
      */
     updateNode(old_node, new_node) {
         if (new_node === "") {
+            console.log("Invalid new node.")
             window.alert("Invalid new node.")
             return false;
         }
@@ -82,9 +86,10 @@ class graph {
             )
             const index = this.nodes.indexOf(old_node)
             this.nodes[index] = new_node
-            window.alert(`Node ${old_node} updated to ${new_node}.`)
+            console.log(`Node ${old_node} updated to ${new_node}.`)
             return true
         }
+        console.log(`Node ${old_node} does not exist or Node ${new_node} already exists.`)
         window.alert(`Node ${old_node} does not exist or Node ${new_node} already exists.`)
         return false
     }
@@ -99,14 +104,17 @@ class graph {
      */
     addEdge(node_x, node_y, weight) {
         if (node_x === "" || node_y === "") {
+            console.log("Invalid node(s).")
             window.alert("Invalid node(s).")
             return false;
         }
         else if (!this.nodes.includes(node_x) || !this.nodes.includes(node_y)) {
+            console.log("One or both of the nodes do not exist.")
             window.alert("One or both of the nodes do not exist.")
             return false
         }
         else if (node_x === node_y) {
+            console.log("Looping edge averted. Please provide different nodes.")
             window.alert("Looping edge averted. Please provide different nodes.")
             return false
         }
@@ -116,12 +124,14 @@ class graph {
             })
             if (!edge_exists) {
                 this.edges.push([node_x, node_y, weight])
-                window.alert(`Edge of weight ${weight} from Node ${node_x} to Node ${node_y} added.`)
+                console.log(`Edge of weight ${weight} from Node ${node_x} to Node ${node_y} added.`)
                 return true
             }
+            console.log(`Edge from Node ${node_x} to Node ${node_y} already exists.`)
             window.alert(`Edge from Node ${node_x} to Node ${node_y} already exists.`)
             return false
         }
+        console.log("Invalid weight.")
         window.alert("Invalid weight.")
         return false
     }
@@ -139,9 +149,10 @@ class graph {
         })
         if (edge_index !== -1) {
             this.edges.splice(edge_index, 1)
-            window.alert(`Edge from Node ${node_x} to Node ${node_y} removed.`)
+            console.log(`Edge from Node ${node_x} to Node ${node_y} removed.`)
             return true
         }
+        console.log(`Edge from Node ${node_x} to Node ${node_y} does not exist.`)
         window.alert(`Edge from Node ${node_x} to Node ${node_y} does not exist.`)
         return false
     }
@@ -161,13 +172,23 @@ class graph {
             })
             if (edge_index !== -1) {
                 this.edges[edge_index] = [node_x, node_y, weight]
-                window.alert(`Weight of edge from Node ${node_x} to Node ${node_y} updated to ${weight}.`)
+                console.log(`Weight of edge from Node ${node_x} to Node ${node_y} updated to ${weight}.`)
                 return true
             }
+            console.log(`Edge from Node ${node_x} to Node ${node_y} does not exist.`)
             window.alert(`Edge from Node ${node_x} to Node ${node_y} does not exist.`)
             return false
         }
+        console.log("Invalid weight.")
         window.alert("Invalid weight.")
         return false
+    }
+
+    /**
+     * Removes all nodes and edges from the graph
+     */
+    removeAll() {
+        this.nodes = [];
+        this.edges = [];
     }
 }

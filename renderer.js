@@ -78,6 +78,19 @@ function renderNode() {
 }
 
 /**
+ * Takes the value from remove node input field and removes the node from the graph
+ * If successful, clears the node from canvas
+ */
+function clearNode() {
+    let node = document.getElementById("remove-node").value;
+
+    if (g.removeNode(node)) {
+        net.nodes("#"+node).remove({withEdges: true});
+        net.layout({name: "grid"}).run();
+    }
+}
+
+/**
  * Takes the values from edge input fields and adds the edge to the graph.
  * If successful, renders the edge on the canvas.
  */
@@ -92,13 +105,26 @@ function renderEdge() {
 }
 
 /**
+ * Takes the values from remove edge input fields and removes the edge from the graph
+ * If successful, clears the edge from canvas
+ */
+function clearEdge() {
+    let node_x = document.getElementById("remove-node_x").value;
+    let node_y = document.getElementById("remove-node_y").value;
+
+    if (g.removeEdge(node_x, node_y)) {
+        net.edges("#"+node_x+"_"+node_y).remove();
+        net.edges("#"+node_y+"_"+node_x).remove();
+    }
+}
+
+/**
  * Changes the color of a node
  * @param {*} node - The node whose color is changed
  * @param {string} color - The new color of the node
  */
 function colorNode(node, color) {
-    let id = '[id = "' + node + '"]';
-    net.nodes(id).style('background-color', color);
+    net.nodes("#"+node).style('background-color', color);
 }
 
 /**
@@ -107,11 +133,8 @@ function colorNode(node, color) {
  * @param {string} color - The new color of the edge
  */
 function colorEdge(edge, color) {
-    let id_1 = '[id = "' + edge[0]+"_"+ edge[1] + '"]';
-    let id_2 = '[id = "' + edge[1]+"_"+ edge[0] + '"]';
-    
-    net.edges(id_1).style('line-color', color);
-    net.edges(id_2).style('line-color', color);
+    net.edges("#"+edge[0]+"_"+ edge[1]).style('line-color', color);
+    net.edges("#"+edge[1]+"_"+ edge[0]).style('line-color', color);
 }
 
 /**

@@ -7,7 +7,6 @@
     --button-colors: rgb(30, 166, 228);
     --hovered-button-colors: rgb(40, 216, 255);
     --disabled-button-colors: rgb(12, 70, 97);
-
     --negative-button-colors: rgb(228, 30, 80);
     --hovered-negative-button-colors: rgb(255, 41, 123);
     --disabled-negative-button-colors: rgb(100, 14, 35);
@@ -26,7 +25,7 @@ body {
 #container {
     display: flex;
     justify-content: space-evenly;
-    align-items: top;
+    align-items: center;
 }
 
 #canvas {

@@ -46,6 +46,28 @@
                 <button type="button" class="locked-button" onclick="renderEdge()">Add Link</button>
             </fieldset>
 
+            <h2>Unbuild Network</h2>
+
+            <fieldset>
+                <legend>Device</legend>
+
+                <label for="remove-node">Device:</label>
+                <input type="text" id="remove-node"><br>
+
+                <button type="button" class="locked-button negative-button" onclick="clearNode()">Remove Device</button>
+            </fieldset>
+
+            <fieldset>
+                <legend>Link</legend>
+
+                <label for="remove-node_x">Device 1:</label>
+                <input type="text" id="remove-node_x">
+                <label for="remove-node_y">Device 2:</label>
+                <input type="text" id="remove-node_y"><br>
+
+                <button type="button" class="locked-button negative-button" onclick="clearEdge()">Remove Link</button>
+            </fieldset>
+
             <h2>Generate Route</h2>
             
             <fieldset>

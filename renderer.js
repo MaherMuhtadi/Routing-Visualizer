@@ -1,7 +1,7 @@
-var default_node_color = "rgb(115,106,255)"; // Default color of rendered node
-var default_edge_color = "rgb(185,112,255)"; // Default color of rendered edge
-var final_color = "rgb(106,255,243)"; // Color of the final rendered path
-var intermediate_color = "rgb(255,243,142)"; // Color of the intermediate rendered path
+const default_node_color = "rgb(115,106,255)"; // Default color of rendered node
+const default_edge_color = "rgb(185,112,255)"; // Default color of rendered edge
+const final_color = "rgb(106,255,243)"; // Color of the final rendered path
+const intermediate_color = "rgb(255,243,142)"; // Color of the intermediate rendered path
 
 var net = cytoscape({
     container: document.getElementById("canvas"), // container to render in
@@ -134,6 +134,7 @@ function toggleDisabledButtons() {
         button.disabled = !button.disabled;
     }
     document.getElementById("step").disabled = !document.getElementById("step").disabled;
+    document.getElementById("finish").disabled = !document.getElementById("finish").disabled;
 }
 
 /**
@@ -149,7 +150,6 @@ function pathDijkstras() {
         return;
     }
     let d = new Dijkstras(g, start, end);
-    let step = d.stepThrough();
 
     if (!d.solved) {
         toggleDisabledButtons();
@@ -158,7 +158,7 @@ function pathDijkstras() {
     clearTableView();
 
     document.getElementById("step").addEventListener("click", () => {
-        step.next();
+        d.stepThrough().next();
         dijkstraTableGenerator(d);
 
         resetColors();
@@ -178,7 +178,7 @@ function pathDijkstras() {
             for (let node of path){
                 colorNode(node, final_color);
             }
-            for (var i = 0; i < path.length - 1; i++) {
+            for (let i = 0; i < path.length - 1; i++) {
                 colorEdge([path[i], path[i+1]], final_color);
             }
             toggleDisabledButtons();
@@ -200,7 +200,6 @@ function pathBellman() {
         return;
     }
     let b = new BellmanFord(g, start, end);
-    let step = b.stepThrough();
 
     if (!b.solved) {
         toggleDisabledButtons();
@@ -209,7 +208,7 @@ function pathBellman() {
     clearTableView();
     
     document.getElementById("step").addEventListener("click", () => {
-        step.next();
+        b.stepThrough().next();
         bellmanTableGenerator(b);
 
         if (b.solved) {
@@ -217,7 +216,7 @@ function pathBellman() {
             for (let node of path){
                 colorNode(node, final_color);
             }
-            for (var i = 0; i < path.length - 1; i++) {
+            for (let i = 0; i < path.length - 1; i++) {
                 colorEdge([path[i], path[i+1]], final_color);
             }
             toggleDisabledButtons();

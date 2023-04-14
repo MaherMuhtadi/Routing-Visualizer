@@ -7,6 +7,10 @@
     --button-colors: rgb(30, 166, 228);
     --hovered-button-colors: rgb(40, 216, 255);
     --disabled-button-colors: rgb(12, 70, 97);
+
+    --negative-button-colors: rgb(228, 30, 80);
+    --hovered-negative-button-colors: rgb(255, 41, 123);
+    --disabled-negative-button-colors: rgb(100, 14, 35);
 }
 
 * {
@@ -22,13 +26,14 @@ body {
 #container {
     display: flex;
     justify-content: space-evenly;
-    align-items: end;
+    align-items: top;
 }
 
 #canvas {
-    width: 45vw;
-    height: 45vw;
+    width: 40vw;
+    height: 40vw;
     border: 2px solid var(--border-color);
+    margin-top: 0.5rem;
 }
 
 #table-view {
@@ -81,6 +86,21 @@ button:hover {
 button:disabled {
     border-color: var(--disabled-button-colors);
     color: var(--disabled-button-colors);
+}
+
+.negative-button {
+    border-color: var(--negative-button-colors);
+    color: var(--negative-button-colors);
+}
+
+.negative-button:hover {
+    border-color: var(--hovered-negative-button-colors);
+    color: var(--hovered-negative-button-colors);
+}
+
+.negative-button:disabled {
+    border-color: var(--disabled-negative-button-colors);
+    color: var(--disabled-negative-button-colors);
 }
 
 h1 {

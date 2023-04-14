@@ -31,9 +31,19 @@ var net = cytoscape({
 var g = new graph();
 
 /**
+ * Clears the current graph
+ */
+function clearGraph() {
+    g.removeAll();
+    net.elements().remove();
+}
+
+/**
  * Builds a sample graph
  */
 function buildSample() {
+    clearGraph();
+
     g.nodes = ['n1', 'n2', 'n3', 'n4', 'n5', 'n6']
     g.edges = [['n1', 'n2', 5], 
              ['n1', 'n4', 6], 

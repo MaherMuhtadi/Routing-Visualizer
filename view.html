@@ -46,8 +46,6 @@
                 <button type="button" class="locked-button" onclick="renderEdge()">Add Link</button>
             </fieldset>
 
-            <button type="button" class="locked-button" onclick="buildSample()">Sample Network</button>
-
             <h2>Generate Route</h2>
             
             <fieldset>
@@ -65,7 +63,11 @@
             </fieldset>
         </form>
 
-        <div id="canvas"></div>
+        <div id="canvas-container">
+            <button type="button" class="locked-button" onclick="buildSample()">Sample Network</button>
+            <button type="button" class="locked-button negative-button" onclick="clearGraph()">Delete Network</button>
+            <div id="canvas"></div>
+        </div>
     </div>
 
     <div id="table-view"></div>

@@ -1,12 +1,18 @@
+var default_node_color = "rgb(115,106,255)"; // Default color of rendered node
+var default_edge_color = "rgb(185,112,255)"; // Default color of rendered edge
+var final_color = "rgb(106,255,243)"; // Color of the final rendered path
+var intermediate_color = "rgb(255,243,142)"; // Color of the intermediate rendered path
+
 var net = cytoscape({
     container: document.getElementById("canvas"), // container to render in
     style: [
         {
             selector: 'node',
             style: {
-                'label': 'data(label)', // uses the "label" property value from node's data property
+                'label': 'data(id)', // uses the "id" property value from node's data property as the label
                 'text-valign': 'center', // sets vertical alignment of label
-                'text-halign': 'center' // sets horizontal alignment of label
+                'text-halign': 'center', // sets horizontal alignment of label
+                'background-color': default_node_color // sets color of the node
             }
         },
         {
@@ -14,7 +20,9 @@ var net = cytoscape({
             style: {
                 'label': 'data(weight)', // uses the "weight" property value from edge's data property as the label
                 'text-margin-x': 10, // sets margin for label along the x-axis
-                'text-margin-y': -10 // sets margin for label along the y-axis
+                'text-margin-y': -10, // sets margin for label along the y-axis
+                'line-color': default_edge_color, // sets color of the edge
+                'color': 'white' // sets color of label
             }
         }
     ],
@@ -38,7 +46,7 @@ function buildSample() {
              ['n5', 'n6', 7]]
     
     for (let node of g.nodes) {
-        net.add({group: "nodes", data: {id: node, label: node}});
+        net.add({group: "nodes", data: {id: node}});
     }
     for (let edge of g.edges) {
         net.add({group: "edges", data: {id: edge[0]+"_"+edge[1], weight: edge[2], source: edge[0], target: edge[1]}});
@@ -54,7 +62,7 @@ function renderNode() {
     let node = document.getElementById("node").value;
     
     if (g.addNode(node)) {
-        net.add({group: "nodes", data: {id: node, label: node}});
+        net.add({group: "nodes", data: {id: node}});
         net.layout({name: "grid"}).run();
     }
 }
@@ -73,125 +81,128 @@ function renderEdge() {
     }
 }
 
+/**
+ * Changes the color of a node
+ * @param {*} node - The node whose color is changed
+ * @param {string} color - The new color of the node
+ */
 function colorNode(node, color) {
-    identity = '[id = "' + node + '"]';
-    net.nodes(identity).style('background-color', color);
+    let id = '[id = "' + node + '"]';
+    net.nodes(id).style('background-color', color);
 }
 
+/**
+ * Changes the color of an edge
+ * @param {Array} edge - The edge whose color is changed
+ * @param {string} color - The new color of the edge
+ */
 function colorEdge(edge, color) {
-    identity = '[id = "' + edge[0]+"_"+ edge[1] + '"]';
-    net.edges(identity).style('line-color', color);
+    let id_1 = '[id = "' + edge[0]+"_"+ edge[1] + '"]';
+    let id_2 = '[id = "' + edge[1]+"_"+ edge[0] + '"]';
+    
+    net.edges(id_1).style('line-color', color);
+    net.edges(id_2).style('line-color', color);
 }
 
+/**
+ * Resets the color of all nodes and edges
+ */
 function resetColors() {
     for (let node of g.nodes){
-        identity = '[id = "' + node + '"]';
-        net.nodes(identity).style('background-color', 'grey');
+        colorNode(node, default_node_color);
     }
     for (let edge of g.edges){
-        identity = '[id = "' + edge[0]+"_"+ edge[1] + '"]';
-        net.edges(identity).style('line-color', 'grey');
+        colorEdge(edge, default_edge_color);
     }
 }
 
 /**
+ * Toggles all form buttons 'disabled' attribute
+ */
+function toggleDisabledButtons() {
+    for (let button of document.getElementsByClassName("locked-button")) {
+        button.disabled = !button.disabled;
+    }
+    document.getElementById("step").disabled = !document.getElementById("step").disabled;
+}
+
+/**
  * Takes the values from path input fields and creates a Dijkstras object using them and the graph.
- * Disables the algorithm buttons until the algorithm goes to completion. 
- * Steps through the edges and generates the path.
+ * Disables all buttons until the algorithm goes to completion. 
+ * Steps through the algorithm and generates the path.
  */
 function pathDijkstras() {
     let start = document.getElementById("start").value;
     let end = document.getElementById("end").value;
-    
     let d = new Dijkstras(g, start, end);
-    console.log("new d created");
-    console.log(d)
     let step = d.stepThrough();
 
     if (!d.solved) {
-       
-        for (let button of document.getElementsByClassName("locked-button")) {
-            button.disabled = true;
-        }
-        document.getElementById("step").disabled = false;
+        toggleDisabledButtons();
     }
-
     resetColors();
     clearTableView();
+
     document.getElementById("step").addEventListener("click", () => {
         step.next();
+        dijkstraTableGenerator(d);
 
         resetColors();
         for (let edge of d.dijkstraPossibleEdges) {
-            colorEdge([edge[0], edge[1]], "orange");
+            colorEdge([edge[0], edge[1]], intermediate_color);
         }
         for (let node of d.dijkstraNodes) {
-            colorNode(node, "green");
+            colorNode(node, final_color);
         }
         for (let edge of d.dijkstraEdges) {
-            colorEdge([edge[0], edge[1]], "green");
+            colorEdge([edge[0], edge[1]], final_color);
         }
 
-        dijkstraTableGenerator(d);
-
         if (d.solved) {
-            path = d.dijkstraDistances[end][1];
+            let path = d.dijkstraDistances[end][1];
             resetColors();
-
             for (let node of path){
-                colorNode(node, "green");
+                colorNode(node, final_color);
             }
             for (var i = 0; i < path.length - 1; i++) {
-                colorEdge([path[i], path[i+1]], "green");
-                colorEdge([path[i+1], path[i]], "green");
+                colorEdge([path[i], path[i+1]], final_color);
             }
-
-            for (let button of document.getElementsByClassName("locked-button")) {
-                button.disabled = false;
-            }
-            document.getElementById("step").disabled = true;
+            toggleDisabledButtons();
             d = null;
         }
     });
 }
 
+/**
+ * Takes the values from path input fields and creates a BellmanFord object using them and the graph.
+ * Disables all buttons until the algorithm goes to completion. 
+ * Steps through the algorithm and generates the path.
+ */
 function pathBellman() {
     let start = document.getElementById("start").value;
     let end = document.getElementById("end").value;
-    
     let b = new BellmanFord(g, start, end);
     let step = b.stepThrough();
 
     if (!b.solved) {
-        for (let button of document.getElementsByClassName("locked-button")) {
-            button.disabled = true;
-        }
-        document.getElementById("step").disabled = false;
+        toggleDisabledButtons();
     }
-
     resetColors();
     clearTableView();
+    
     document.getElementById("step").addEventListener("click", () => {
         step.next();
-        console.log(b);
         bellmanTableGenerator(b);
 
         if (b.solved) {
-            path = b.bfTable[start][end][1];
-
+            let path = b.bfTable[start][end][1];
             for (let node of path){
-                colorNode(node, "green");
+                colorNode(node, final_color);
             }
             for (var i = 0; i < path.length - 1; i++) {
-                colorEdge([path[i], path[i+1]], "green");
-                colorEdge([path[i+1], path[i]], "green");
+                colorEdge([path[i], path[i+1]], final_color);
             }
-
-
-            for (let button of document.getElementsByClassName("locked-button")) {
-                button.disabled = false;
-            }
-            document.getElementById("step").disabled = true;
+            toggleDisabledButtons();
             b = null;
         }
     });

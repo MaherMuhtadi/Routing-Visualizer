@@ -1,23 +1,23 @@
 /**
- * Generates table at each step of the Dijkstra's algorithm
- * @param {*} dijk - Dijkstra object
+ * Generates and updates a distance table for each step of Dijkstra's algorithm
+ * @param {Dijkstras} D - Dijkstras algorithm object whose steps are displayed in the table
  */
-function dijkstraTableGenerator(dijk){
+function dijkstraTableGenerator(D) {
     document.getElementById('table-view').textContent = "";
     const tv = document.getElementById('table-view');
     const table = document.createElement('table');
-    table.setAttribute('id', 'table'+dijk.start);
+    table.setAttribute('id', 'table'+D.start);
     const headerRow = document.createElement('tr'); 
     const nodeHeader = document.createElement('th');
     nodeHeader.textContent = 'Device';
     const distanceHeader = document.createElement('th');
-    distanceHeader.textContent = 'Distance from '+dijk.start;
+    distanceHeader.textContent = 'Distance from '+D.start;
     headerRow.appendChild(nodeHeader);
     headerRow.appendChild(distanceHeader);
     table.appendChild(headerRow);
     tv.appendChild(table);
     
-    for (const [key,value] of Object.entries(dijk.dijkstraDistances)) {
+    for (const [key,value] of Object.entries(D.dijkstraDistances)) {
         const row = document.createElement('tr');
         const nameCell = document.createElement('td');
         nameCell.textContent = key;
@@ -30,10 +30,10 @@ function dijkstraTableGenerator(dijk){
 }
 
 /**
- * Generates table at each step of the Bellman-Ford algorithm
- * @param {*} B - BellmanFord Object
+ * Generates and updates node tables for each step of Bellman-Ford algorithm
+ * @param {BellmanFord} B - BellmanFord algorithm object whose steps are displayed in the tables
  */
-function bellmanTableGenerator(B){
+function bellmanTableGenerator(B) {
     document.getElementById('table-view').textContent = "";
     makeTables(B);
     for (const [key1,value1] of Object.entries(B.bfTable)) {
@@ -51,7 +51,11 @@ function bellmanTableGenerator(B){
         };
 }
 
-function makeTables(algorithm){
+/**
+ * A helper function fo bellmanTableGenerator().
+ * @param {BellmanFord} algorithm - BellmanFord algorithm object used in bellmanTableGenerator()
+ */
+function makeTables(algorithm) {
     const tv = document.getElementById('table-view')
     for (const iterator of algorithm.G.nodes) {
         const table = document.createElement('table');
@@ -71,6 +75,9 @@ function makeTables(algorithm){
     }
 }
 
-function clearTableView(){
+/**
+ * Clears content of the 'table-view' container in view.html
+ */
+function clearTableView() {
     document.getElementById('table-view').textContent = "";
 }

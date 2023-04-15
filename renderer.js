@@ -31,6 +31,14 @@ var net = cytoscape({
 var g = new graph();
 
 /**
+ * Re-centers the rendered graph
+ */
+function recenter() {
+    net.center();
+    net.fit();
+}
+
+/**
  * Clears the current graph
  */
 function clearGraph() {
@@ -109,8 +117,8 @@ function renderEdge() {
  * If successful, clears the edge from canvas
  */
 function clearEdge() {
-    let node_x = document.getElementById("remove-node_x").value;
-    let node_y = document.getElementById("remove-node_y").value;
+    let node_x = document.getElementById("remove-edge_x").value;
+    let node_y = document.getElementById("remove-edge_y").value;
 
     if (g.removeEdge(node_x, node_y)) {
         net.edges("#"+node_x+"_"+node_y).remove();

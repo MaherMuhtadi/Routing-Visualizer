@@ -63,6 +63,10 @@ fieldset {
     border: 2px solid var(--border-color);
 }
 
+legend {
+    font-size: larger;
+}
+
 input, button {
     padding: 0.25rem;
     margin: 0.5rem 0.5rem 0rem 0rem;

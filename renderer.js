@@ -12,7 +12,8 @@ var net = cytoscape({
                 'label': 'data(id)', // uses the "id" property value from node's data property as the label
                 'text-valign': 'center', // sets vertical alignment of label
                 'text-halign': 'center', // sets horizontal alignment of label
-                'background-color': default_node_color // sets color of the node
+                'background-color': default_node_color, // sets color of the node
+                'color': 'white' // sets color of label
             }
         },
         {

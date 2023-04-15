@@ -33,13 +33,13 @@ body {
 
 #canvas {
     width: 45vw;
-    height: 45vw;
+    height: 35vw;
     border: 2px solid var(--border-color);
     margin-top: 0.5rem;
 }
 
 #table-view {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     display: flex;
     justify-content: space-evenly;
 }
@@ -103,6 +103,11 @@ button:disabled {
 .negative-button:disabled {
     border-color: var(--disabled-negative-button-colors);
     color: var(--disabled-negative-button-colors);
+}
+
+#visualizer-buttons {
+    display: flex;
+    justify-content: space-between;
 }
 
 h1 {

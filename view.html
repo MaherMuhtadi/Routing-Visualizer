@@ -93,9 +93,13 @@
         </form>
 
         <div>
-            <button type="button" class="locked-button" onclick="buildSample()">Sample Network</button>
-            <button type="button" class="locked-button negative-button" onclick="clearGraph()">Delete Network</button>
-            <button type="button" class="locked-button" onclick="recenter()">Recenter</button>
+            <div id="visualizer-buttons">
+                <div>
+                    <button type="button" class="locked-button" onclick="buildSample()">Sample Network</button>
+                    <button type="button" class="locked-button negative-button" onclick="clearGraph()">Delete Network</button>
+                </div>
+                <button type="button" class="locked-button" onclick="recenter()">Recenter</button>
+            </div>
         
             <div id="canvas"></div>
         </div>

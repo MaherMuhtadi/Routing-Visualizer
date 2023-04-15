@@ -12,7 +12,13 @@ var net = cytoscape({
                 'label': 'data(id)', // uses the "id" property value from node's data property as the label
                 'text-valign': 'center', // sets vertical alignment of label
                 'text-halign': 'center', // sets horizontal alignment of label
-                'background-color': default_node_color // sets color of the node
+                'background-color': default_node_color, // sets color of the node
+                'width': function(node) {
+                    return node.id().length * 25; // Set the width of nodes based on their id length
+                },
+                'height': function(node) {
+                    return node.id().length * 25; // Set the height of nodes based on their id length
+                }
             }
         },
         {

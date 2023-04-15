@@ -69,7 +69,7 @@ function buildSample() {
     for (let edge of g.edges) {
         net.add({group: "edges", data: {id: edge[0]+"_"+edge[1], weight: edge[2], source: edge[0], target: edge[1]}});
     }
-    net.layout({name: "grid"}).run();
+    net.layout({name: 'circle', avoidOverlap: true, spacingFactor: 0.75}).run();
 }
 
 /**
@@ -81,7 +81,7 @@ function renderNode() {
     
     if (g.addNode(node)) {
         net.add({group: "nodes", data: {id: node}});
-        net.layout({name: "grid"}).run();
+        net.layout({name: 'circle', avoidOverlap: true, spacingFactor: 0.75}).run();
         resetColors();
     }
 }
@@ -95,7 +95,7 @@ function clearNode() {
 
     if (g.removeNode(node)) {
         net.nodes("#"+node).remove({withEdges: true});
-        net.layout({name: "grid"}).run();
+        net.layout({name: 'circle', avoidOverlap: true, spacingFactor: 0.75}).run();
         resetColors();
     }
 }

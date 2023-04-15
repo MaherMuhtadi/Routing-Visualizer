@@ -12,8 +12,7 @@ var net = cytoscape({
                 'label': 'data(id)', // uses the "id" property value from node's data property as the label
                 'text-valign': 'center', // sets vertical alignment of label
                 'text-halign': 'center', // sets horizontal alignment of label
-                'background-color': default_node_color, // sets color of the node
-                'color': 'white' // sets color of label
+                'background-color': default_node_color // sets color of the node
             }
         },
         {
@@ -83,6 +82,7 @@ function renderNode() {
     if (g.addNode(node)) {
         net.add({group: "nodes", data: {id: node}});
         net.layout({name: "grid"}).run();
+        resetColors();
     }
 }
 
@@ -96,6 +96,7 @@ function clearNode() {
     if (g.removeNode(node)) {
         net.nodes("#"+node).remove({withEdges: true});
         net.layout({name: "grid"}).run();
+        resetColors();
     }
 }
 
@@ -110,6 +111,7 @@ function renderEdge() {
     
     if (g.addEdge(node_x, node_y, weight)) {
         net.add({group: "edges", data: {id: node_x+"_"+node_y, weight: weight, source: node_x, target: node_y}});
+        resetColors();
     }
 }
 
@@ -124,6 +126,7 @@ function clearEdge() {
     if (g.removeEdge(node_x, node_y)) {
         net.edges("#"+node_x+"_"+node_y).remove();
         net.edges("#"+node_y+"_"+node_x).remove();
+        resetColors();
     }
 }
 

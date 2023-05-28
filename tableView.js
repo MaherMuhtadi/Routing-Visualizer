@@ -76,7 +76,7 @@ function makeTables(algorithm) {
 }
 
 /**
- * Clears content of the 'table-view' container in view.html
+ * Clears content of the 'table-view' container in index.html
  */
 function clearTableView() {
     document.getElementById('table-view').textContent = "";

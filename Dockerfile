@@ -3,3 +3,4 @@ FROM httpd
 
 # Copies the app source code to the appropriate directory in the image
 COPY . /usr/local/apache2/htdocs/
+RUN rm -rf /usr/local/apache2/htdocs/.git
